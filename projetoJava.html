@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java</title>
+    <style>
+        
+
+     #telaInteira {
+        display: grid;              
+        justify-content: center;
+    }
+
+    .promocao {
+        display: inline-block; /*inline-block*/
+        background: #93e5e5;
+        width: 200px;
+        height: 150px;
+        text-align: center;
+    }
+
+    .selecionado {
+        display: inline-block;
+        background: #e5c893;
+        width: 200px;
+        height: 150px;
+        text-align: center;
+    }
+        
+    .promo {
+        display: flex;
+        background: #ebeb2a;
+        margin-top: 15px;
+        width: 607.5px;
+        height: 75px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        color: aliceblue;
+        text-shadow: 2px 2px 2px #000;
+        font-weight: bolder;
+        font-size: 25px;
+    }
+
+    .input {
+        background: #779de4;
+        width: 200px;
+        text-align: center;
+        border: 2px solid #ece91e;
+        margin-top: 15px;
+        font-size: 20px;
+
+    }
+
+    .qtd {
+        display: block;
+        background: rgb(241, 195, 195);
+        color: #00cc ;
+        margin-top: 15px;
+        width: 50px;
+        height: 40px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .botao {
+        background: #4668d8;
+        color: #ffffff;
+        font-size: 18px;
+        border-radius: 5px;
+        width: 100px;
+        height: 35px;
+        border: ridge 4px rgb(241, 195, 195);
+    }
+
+    .botao:hover {
+        cursor: pointer;
+        background: #93e5e5;
+        color: #4668d8;
+    }
+    #resultado {
+        position: absolute; top: 280px; left: 360px;
+        display: none; /*flex;*/
+        background: #eb2aa1;
+        border: 3px ridge #500c36;
+        margin-top: 15px;
+        width: 300px;
+        height: 75px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        color: aliceblue;
+        text-shadow: 2px 2px 2px #000;
+        font-weight: bolder;
+        font-size: 25px;
+    }
+
+    </style>
+</head>
+<body>
+    <section id="telaInteira">
+        <div id="subTela1">
+            <div onclick="escolha('brahma')" id="Brahma" class="promocao brahma">
+                <h2>Brahma CHOP</h2>
+                <div class="preco" value="2.50">Preço: R$ <span class="p">2.50</span></div>
+            </div>
+
+            <div onclick="escolha('heineken')" id="Heineken" class="promocao heineken">
+                <h2>HEINEKEN</h2>
+                <div class="preco" value="4.00">Preço: R$ <span class="p">4.00</span></div>
+            </div>
+
+            <div onclick="escolha('glacial')" id="Glacial" class="promocao glacial">
+                <h2>Glacial</h2>
+                <div class="preco" value="1.75">Preço: R$ <span class="p">1.75</span></div>
+            </div>
+        </div>
+        <div id="subTela2">
+            <div id="informacaoPromocao" class="promo">Compre + de 10 e ganhe 10% de desconto</div>
+
+            <form id="input">
+                <div class="input">Escolha a quantidade</div>
+                <input type="number" name="quantidade" onclick="qtd()" class="qtd" placeholder="0" min="0"><br>
+                <input type="button" value="Finalizar" onclick="fim()" class="botao"><br>
+            </form> 
+            <div id="resultado"></div>
+        </div>
+    </section>
+    <script>
+        
+        let quantidade = 0
+        let marca = ''
+        let itensTotal = 0
+        let valor = 0
+        let resultado = 0
+            
+        //pegar o elemento 
+        function escolha(elemento){
+            
+            if(elemento == 'brahma'){
+                document.querySelector('#Brahma').classList = 'selecionado'
+                document.querySelector('#Heineken').classList = 'promocao'
+                document.querySelector('#Glacial').classList = 'promocao'
+                valor = 2.50
+            } else if(elemento == 'heineken'){
+                document.querySelector('#Brahma').classList = 'promocao'
+                document.querySelector('#Heineken').classList = 'selecionado'
+                document.querySelector('#Glacial').classList = 'promocao'
+                valor = 4
+            } else if(elemento == 'glacial'){
+                document.querySelector('#Brahma').classList = 'promocao'
+                document.querySelector('#Heineken').classList = 'promocao'
+                document.querySelector('#Glacial').classList = 'selecionado'
+                valor = 1.75
+            }
+            
+            return (marca = elemento, valor)
+        } 
+
+        function qtd(){
+            quantidade = parseInt(document.querySelector('.qtd').value)
+                       
+        }
+        function tela(){
+            let section = document.querySelector('.promo')
+            section.addEventListener('click', function (event){
+                document.querySelector('#Brahma').classList = 'promocao'
+                document.querySelector('#Heineken').classList = 'promocao'
+                document.querySelector('#Glacial').classList = 'promocao'
+
+                document.querySelector('#resultado').style.display = 'none'
+                
+
+                escolha(marca = '')
+                
+                
+            })
+        }
+        tela()
+ 
+        //escolha() 
+        function fim(){
+            
+            if(quantidade == 0 || marca == ''){
+               
+                    alert('Escolha uma marca e a quantidade')
+                
+            } else {
+                
+                if(quantidade >= 10){
+                    itensTotal = (valor * quantidade) / 10
+                    resultado = (valor * quantidade) - itensTotal
+                    document.querySelector('#resultado').innerHTML = `R$ ${resultado.toFixed(2).replace('.',',')}`
+                    document.querySelector('#resultado').style.display = 'flex'                  
+                                       
+                } else {
+                    itensTotal = valor * quantidade
+                    document.querySelector('#resultado').innerHTML = `R$ ${itensTotal.toFixed(2).replace('.',',')}`
+                    document.querySelector('#resultado').style.display = 'flex'
+                }
+            }
+        }
+        
+        
+        
+
+                
+        
+
+        
+        //console.log(quantidade) 
+        // botao.addEventListener('click', function(event){
+                  //  event.preventDefault()
+                  //})
+        
+
+
+           //let botao = document.querySelector('.botao')
+            /* document.querySelectorAll('.p').forEach((item) => {
+            valor = parseFloat(item.innerHTML)          
+            
+            })  */
+           
+           
+           
+            /*switch(parseFloat(item.innerHTML)){
+                case 4: console.log('brahma')
+                break
+                case 5.5: console.log('heineken')
+                break
+                case 1.75: console.log('glacial')
+                break
+                return preco
+            }  */             
+                    /*case 'heineken': document.querySelector('.heineken').classList = 'promocao heineken'
+                    console.log('entrei')
+                    break
+
+                    case 'glacial': document.querySelector('.glacial').classList = 'promocao glacial'
+                    break
+                }
+                if(document.querySelector('.promocao')){
+                switch(elemento){
+                                        
+                    case 'brahma': document.querySelector('.brahma').classList = 'selecionado brahma' 
+                    break            
+                            
+                    case 'heineken': document.querySelector('.heineken').classList = 'selecionado heineken'
+                    break
+                    
+                    case 'glacial': document.querySelector('.glacial').classList = 'selecionado glacial'
+                    break 
+                } 
+
+                
+            if(document.querySelector('.selecionado')){
+
+                switch(elemento){
+                    case 'brahma': document.querySelector('.brahma').classList = 'promocao brahma' 
+                    break            
+                            
+                    case 'heineken': document.querySelector('.heineken').classList = 'promocao heineken'
+                    break
+                    
+                    case 'glacial': document.querySelector('.glacial').classList = 'promocao glacial'
+                    break 
+                } 
+
+                }
+                  
+                           
+            
+            }
+        }*/
+    
+            
+         
+           
+      
+
+    </script>    
+</body>
+</html>
